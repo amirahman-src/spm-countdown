@@ -1,0 +1,761 @@
+/* ==========================================================================
+   SPM COUNTDOWN 2026 - WEB EDITION DESIGN SYSTEM
+   Optimized for iPhones (Safari iOS) & Mobile Browsers
+   Google Health / Material You Calming Pastel Aesthetic
+   ========================================================================== */
+
+:root {
+  /* Google Health Light Palette (Default) */
+  --bg-primary: #EFF3F8;          /* Calm, airy soft blue-gray canvas */
+  --bg-surface: #FFFFFF;          /* Pure crisp white containers */
+  --bg-glass: rgba(239, 243, 248, 0.94);
+  --border-subtle: rgba(0, 0, 0, 0.06);
+  --border-chip: rgba(0, 0, 0, 0.08);
+
+  /* Typography */
+  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Text Colors */
+  --text-primary: #1F1F1F;        /* Google near-black */
+  --text-secondary: #444746;      /* Google muted gray */
+  --text-muted: #72777A;          /* Google caption gray */
+
+  /* Google Health Pastel Cards Palette */
+  /* 1. Bertutur (Speaking) -> Mint Green */
+  --card-speaking-bg: #C8F5EC;
+  --card-speaking-text: #004F44;
+  --card-speaking-sub: #056859;
+
+  /* 2. Bertulis (Writing) -> Sky Blue */
+  --card-writing-bg: #D7E7FE;
+  --card-writing-text: #0B3F78;
+  --card-writing-sub: #1A5599;
+
+  /* 3. Amali (Practical) -> Soft Lilac / Lavender */
+  --card-experiment-bg: #F0E5FD;
+  --card-experiment-text: #481B73;
+  --card-experiment-sub: #632D99;
+
+  /* Filter Chips */
+  --chip-bg: #FFFFFF;
+  --chip-text: #444746;
+  --chip-active-bg: #D3E4FD;       /* Soft blue active chip */
+  --chip-active-text: #003355;
+
+  /* Curves & Radii (Material 3 Smooth Squircles) */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;              /* Smooth squircle cards */
+  --radius-xl: 28px;              /* Bottom sheets, modal headers */
+  --radius-full: 9999px;          /* Clean pills */
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.08);
+
+  --trans-fast: 0.15s cubic-bezier(0.2, 0, 0, 1);
+  --trans-normal: 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Material You Dark Theme */
+html.dark {
+  --bg-primary: #121316;
+  --bg-surface: #1E2124;
+  --bg-glass: rgba(18, 19, 22, 0.94);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-chip: rgba(255, 255, 255, 0.1);
+
+  --text-primary: #E3E3E3;
+  --text-secondary: #C4C7C5;
+  --text-muted: #8E918F;
+
+  /* Dark mode tinted pastel cards */
+  --card-speaking-bg: #0E332B;
+  --card-speaking-text: #A6F4E0;
+  --card-speaking-sub: #70B5A7;
+
+  --card-writing-bg: #142B45;
+  --card-writing-text: #B8D7FB;
+  --card-writing-sub: #799DC6;
+
+  --card-experiment-bg: #2E1C44;
+  --card-experiment-text: #DEC7FF;
+  --card-experiment-sub: #9B7EBD;
+
+  --chip-bg: #1E2124;
+  --chip-text: #C4C7C5;
+  --chip-active-bg: #D3E4FD;
+  --chip-active-text: #003355;
+
+  --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.35);
+  --shadow-sheet: 0 -8px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   RESET & MOBILE BASE STYLES
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ==========================================================================
+   1. STARTUP INTRO SCREEN
+   ========================================================================== */
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-primary);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: autoDismissIntro 1.4s ease forwards;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  user-select: none;
+}
+
+.intro-screen.hide-intro {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
+
+@keyframes autoDismissIntro {
+  0%, 75% {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.intro-title {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text-primary);
+  text-align: center;
+  animation: introFade 0.5s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+@keyframes introFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   2. MAIN APPLICATION CONTAINER
+   ========================================================================== */
+.main-app {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header - Permanently Fixed to Screen with iPhone Notch Support */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  z-index: 1000;
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: max(14px, env(safe-area-inset-top)) 18px 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.15;
+}
+
+.today-date-text {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* TIME SYNC BADGE */
+.time-sync-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 3px 9px;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: fit-content;
+  transition: background-color var(--trans-fast);
+}
+
+html.dark .time-sync-pill {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sync-dot.synced {
+  background-color: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.sync-dot.syncing {
+  background-color: #F59E0B;
+  animation: pulseSync 1s infinite;
+}
+
+.sync-dot.device {
+  background-color: #38BDF8;
+}
+
+@keyframes pulseSync {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--trans-fast), transform var(--trans-fast);
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   3. CATEGORY FILTER TABS (Google Material 3 Filter Chips)
+   ========================================================================== */
+.top-nav-bar {
+  width: 100%;
+}
+
+.nav-tabs-container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0 4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-tabs-container::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-chip);
+  background-color: var(--chip-bg);
+  color: var(--chip-text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--trans-fast);
+}
+
+.nav-tab:active {
+  transform: scale(0.96);
+}
+
+.nav-tab.active {
+  background-color: var(--chip-active-bg);
+  color: var(--chip-active-text);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   4. CONTENT BODY & 2-COLUMN CARDS GRID
+   ========================================================================== */
+.content-body {
+  flex: 1;
+  padding: calc(max(14px, env(safe-area-inset-top)) + 144px) 18px 40px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+/* Google Health Inspired Metric Card */
+.exam-card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 20px 14px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  min-height: 184px;
+  transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+  box-shadow: var(--shadow-card);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.exam-card:active {
+  transform: scale(0.96);
+}
+
+/* Pastel Tints */
+.exam-card.type-speaking {
+  background-color: var(--card-speaking-bg);
+  color: var(--card-speaking-text);
+}
+
+.exam-card.type-writing {
+  background-color: var(--card-writing-bg);
+  color: var(--card-writing-text);
+}
+
+.exam-card.type-experiment {
+  background-color: var(--card-experiment-bg);
+  color: var(--card-experiment-text);
+}
+
+/* Top: Subject Name & Clean Subtitle */
+.card-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.card-sub {
+  font-size: 0.76rem;
+  font-weight: 500;
+  opacity: 0.82;
+  letter-spacing: 0.01em;
+}
+
+/* Center: Big Friendly Number & "days left" */
+.card-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.card-number {
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.card-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0.78;
+  margin-top: 4px;
+}
+
+/* Bottom: Clean Date String */
+.card-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.card-date {
+  font-size: 0.74rem;
+  font-weight: 600;
+  opacity: 0.72;
+  letter-spacing: 0.01em;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 12px;
+}
+
+.empty-title {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.btn-reset {
+  background: var(--chip-active-bg);
+  color: var(--chip-active-text);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+/* Clean Footer with iPhone home indicator safe area */
+.app-footer {
+  padding: 24px 20px max(32px, env(safe-area-inset-bottom)) 20px;
+  text-align: center;
+}
+
+.footer-credit {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   5. DETAIL BOTTOM SHEET / MODAL (Google Material 3 Sheet)
+   ========================================================================== */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transition: opacity var(--trans-normal);
+}
+
+.sheet-backdrop.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.sheet-container {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  background-color: var(--bg-surface);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 14px 20px max(36px, env(safe-area-inset-bottom)) 20px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-sheet);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transform: translateY(0);
+  transition: transform var(--trans-normal);
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet-backdrop.hidden .sheet-container {
+  transform: translateY(100%);
+}
+
+.sheet-drag-handle {
+  width: 38px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background-color: rgba(0, 0, 0, 0.16);
+  margin: 0 auto 6px auto;
+}
+
+html.dark .sheet-drag-handle {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sheet-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sheet-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sheet-type-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.sheet-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--bg-primary);
+  border: none;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--trans-fast);
+}
+
+.sheet-close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.sheet-subject-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.sheet-stream-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Clean Timer Box */
+.sheet-timer-box {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 18px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer-digits {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.timer-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.timer-colon {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+/* Info List */
+.sheet-info-list {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: 4px 16px;
+}
+
+.sheet-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sheet-info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.info-val {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Papers List */
+.sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sheet-section-title {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.paper-item-card {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paper-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paper-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.paper-code-chip {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.paper-time-row {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+.sheet-tips-list {
+  padding-left: 18px;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

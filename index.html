@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ms" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#EFF3F8" />
+  
+  <!-- iOS Safari & iPhone Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SPM 2026" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="description" content="Aplikasi Countdown SPM 2026 rasmi untuk calon peperiksaan. Paparan kiraan hari Ujian Bertutur, Ujian Bertulis dan Ujian Amali Sains berpandukan jadual Lembaga Peperiksaan Malaysia." />
+  
+  <title>SPM 2026 Countdown</title>
+  
+  <!-- Web App Manifest for iOS & Android "Add to Home Screen" -->
+  <link rel="manifest" href="./manifest.json" />
+
+  <!-- Google Plus Jakarta Sans Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <!-- ==================== 1. STARTUP INTRO SCREEN ==================== -->
+  <div id="intro-screen" class="intro-screen" aria-label="SPM Countdown">
+    <h1 class="intro-title">SPM COUNTDOWN</h1>
+  </div>
+
+  <!-- ==================== 2. MAIN APPLICATION ==================== -->
+  <div id="main-app" class="main-app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="header-titles">
+          <h1 class="brand-title">SPM 2026</h1>
+          <p id="today-date-display" class="today-date-text">Selasa, 13 Okt 2026</p>
+          <!-- NTP Official Time Synchronization Badge -->
+          <div class="time-sync-pill" id="time-sync-badge" title="Klik untuk maklumat penyelarasan masa rasmi">
+            <span class="sync-dot syncing" id="sync-dot"></span>
+            <span id="time-sync-text">Menyemak Masa...</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="theme-toggle-btn" class="icon-btn" title="Tukar Tema" aria-label="Tukar Tema">
+            <svg class="btn-icon sun-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="btn-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <nav class="top-nav-bar" aria-label="Navigasi Jenis Peperiksaan">
+        <div class="nav-tabs-container">
+          <button class="nav-tab active" data-type="all" id="tab-all">Semua</button>
+          <button class="nav-tab" data-type="writing" id="tab-writing">Bertulis</button>
+          <button class="nav-tab" data-type="speaking" id="tab-speaking">Bertutur</button>
+          <button class="nav-tab" data-type="experiment" id="tab-experiment">Amali</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="content-body">
+      <!-- CARDS GRID (Google Health Pastel 2-column layout) -->
+      <section id="cards-grid" class="cards-grid" aria-label="Senarai Kad Countdown"></section>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state hidden">
+        <p class="empty-title">Tiada peperiksaan dijumpai</p>
+        <button id="reset-filters-btn" class="btn-reset">Papar Semua Subjek</button>
+      </div>
+    </main>
+
+    <!-- Clean Footer -->
+    <footer class="app-footer">
+      <p class="footer-credit">Jadual Peperiksaan SPM 2026 Lembaga Peperiksaan Malaysia</p>
+    </footer>
+  </div>
+
+  <!-- ==================== 3. DETAIL BOTTOM SHEET / MODAL ==================== -->
+  <div id="detail-sheet" class="sheet-backdrop hidden" role="dialog" aria-modal="true">
+    <div class="sheet-container">
+      <div class="sheet-drag-handle"></div>
+      
+      <header class="sheet-header">
+        <div class="sheet-header-top">
+          <span id="sheet-type-label" class="sheet-type-label">Bertutur</span>
+          <button id="sheet-close-btn" class="sheet-close-btn" aria-label="Tutup">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <h2 id="sheet-subject-name" class="sheet-subject-title">Bahasa Melayu</h2>
+        <p id="sheet-stream" class="sheet-stream-text">Kod: <span id="sheet-code">1103/3</span> • Aliran: Teras</p>
+      </header>
+
+      <!-- Live Countdown Ticker Box -->
+      <div id="sheet-timer-box" class="sheet-timer-box">
+        <div class="timer-unit">
+          <div id="timer-days" class="timer-digits">00</div>
+          <span class="timer-label">HARI</span>
+        </div>
+        <div class="timer-colon">:</div>
+        <div class="timer-unit">
+          <div id="timer-hours" class="timer-digits">00</div>
+          <span class="timer-label">JAM</span>
+        </div>
+        <div class="timer-colon">:</div>
+        <div class="timer-unit">
+          <div id="timer-minutes" class="timer-digits">00</div>
+          <span class="timer-label">MINIT</span>
+        </div>
+        <div class="timer-colon">:</div>
+        <div class="timer-unit">
+          <div id="timer-seconds" class="timer-digits">00</div>
+          <span class="timer-label">SAAT</span>
+        </div>
+      </div>
+
+      <div class="sheet-info-list">
+        <div class="sheet-info-item">
+          <span class="info-label">Tarikh</span>
+          <strong id="sheet-date-display" class="info-val">26 - 29 Okt 2026</strong>
+        </div>
+        <div class="sheet-info-item">
+          <span class="info-label">Waktu</span>
+          <strong id="sheet-time-display" class="info-val">8:00 AM</strong>
+        </div>
+        <div class="sheet-info-item">
+          <span class="info-label">Tempat</span>
+          <strong id="sheet-location" class="info-val">Dewan Peperiksaan</strong>
+        </div>
+      </div>
+
+      <!-- Paper Breakdown -->
+      <div class="sheet-section">
+        <h3 class="sheet-section-title">Perincian Kertas</h3>
+        <div id="sheet-papers-list" class="sheet-papers-list"></div>
+      </div>
+
+      <!-- Guidelines / Tips -->
+      <div class="sheet-section">
+        <h3 class="sheet-section-title">Panduan Calon LP SPM</h3>
+        <ul id="sheet-tips-list" class="sheet-tips-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (Pure Vanilla, Zero Build Tools Required) -->
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

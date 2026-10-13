@@ -1,0 +1,17 @@
+{
+  "name": "SPM 2026 Countdown",
+  "short_name": "SPM 2026",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#EFF3F8",
+  "theme_color": "#EFF3F8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "../src/assets/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
